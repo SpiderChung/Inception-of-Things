@@ -1,0 +1,41 @@
+---
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-three
+  labels:
+    app: app-three
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-three
+  template:
+    metadata:
+      labels:
+        app: app-three
+    spec:
+      containers:
+      - name: hello-kubernetes
+        # https://hub.docker.com/r/paulbouwer/hello-kubernetes
+        image: paulbouwer/hello-kubernetes:1.10
+        env:
+          - name: MESSAGE
+            value: "Hello from app3."
+        ports:
+        - containerPort: 8080
+
+---
+# https://kubernetes.io/docs/concepts/services-networking/service/
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-three
+spec:
+  selector:
+    app: app-three
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

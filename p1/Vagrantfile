@@ -1,0 +1,57 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# define box. https://app.vagrantup.com/bento/boxes/debian-11 https://developer.hashicorp.com/vagrant/docs/boxes
+VAGRANT_BOX = "bento/debian-11"
+# define resources: 1 CPU, 512 MB of RAM
+MEM = 1024
+CPU = 1
+# define provider
+PROVIDER = "virtualbox"
+
+# define characteristics of 2 virtual machines
+NODES = [
+  {
+    :name => "Scornhol",
+    :hostname => "ScornholS",
+    :ip => "192.168.56.110",
+    :script =>"server.sh"
+  },
+  {
+    :name => "Schung",
+    :hostname => "SchungSW",
+    :ip => "192.168.56.111",
+    :script =>"agent.sh"
+  }
+]
+
+IP_LIST = NODES.map{|x| x[:ip]}
+
+Vagrant.configure("2") do |config|
+  
+  NODES.each do |node|
+    config.vm.define node[:name] do |nodeconfig|
+      
+      nodeconfig.vm.box = VAGRANT_BOX
+      
+      nodeconfig.vm.provider PROVIDER do |vb|
+        # define resources 
+        vb.memory = MEM
+        vb.cpus = CPU
+        vb.name = node[:name]
+        
+        # connect with SSH on both machines with no password
+        id_rsa_pub = File.read("#{Dir.home}/.ssh/id_rsa.pub")
+  		  nodeconfig.vm.provision "copy ssh public key", type: "shell", inline: "echo \"#{id_rsa_pub}\" >> /home/vagrant/.ssh/authorized_keys
+			rm -rf /home/vagrant/test.txt"
+      end # provider
+
+      nodeconfig.vm.hostname = node[:hostname]
+      nodeconfig.vm.network :private_network, ip: node[:ip]
+
+      nodeconfig.vm.synced_folder ".", "/vagrant", type: PROVIDER, create: true
+      nodeconfig.vm.provision "shell", privileged: true, path: "scripts/#{node[:script]}", args: IP_LIST
+    
+    end #config
+  end # NODES
+end # Vagrant.configure

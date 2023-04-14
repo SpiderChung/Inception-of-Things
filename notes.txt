@@ -1,0 +1,42 @@
+part p1 ******************************************************
+vagrant box add bento/debian-11 debian
+vagrant box list
+vagrant init -m bento/debian-11 debian
+
+
+Macos version:
+sw_vers
+
+Debian version:
+lsb_release -d
+
+vagrant ssh-config
+vagrant ssh [name|id]
+vagrant ssh Scornhol
+ssh vagrant@127.0.0.1 -p 2222
+vagrant ssh Schung
+ssh vagrant@127.0.0.1 -p 2200
+vagrant destroy [name|id] [-f]
+vagrant destroy -f
+vagrant box list
+vagrant status
+
+
+
+sudo ifconfig eth1
+kubectl get nodes -o wide
+kubectl get all
+systemctl status k3s
+
+part p2 ******************************************************
+
+vagrant ssh Schung
+kubectl get nodes -o wide
+kubectl get all -n kube-system
+kubectl get all
+kubectl describe ingress
+curl -H "Host:app2.com" 192.168.56.110
+curl -H "Host:app1.com" 192.168.56.110
+curl -H "Host:app3.com" 192.168.56.110
+curl -H "Host:42.fr" 192.168.56.110
+curl  192.168.56.110
