@@ -5,6 +5,10 @@
 
 https://developer.hashicorp.com/vagrant
 
+## K3S
+
+https://pet2cattle.com/2021/04/k3s-join-nodes
+
 https://kubernetes.io/docs/tutorials/hello-minikube/
 
 https://kubernetes.io/docs/concepts/services-networking/service/
