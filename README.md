@@ -1,6 +1,6 @@
 # Inception-of-Things
 
-##Vagrant
+##Vagrant </b>
 https://developer.hashicorp.com/vagrant
 
 https://kubernetes.io/docs/tutorials/hello-minikube/
