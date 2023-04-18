@@ -1,1 +1,0 @@
-{"virtualbox":{"/vagrant":{"type":"virtualbox","create":true,"guestpath":"/vagrant","hostpath":"/opt/goinfre/schung/new/p2","disabled":false,"__vagrantfile":true}}}

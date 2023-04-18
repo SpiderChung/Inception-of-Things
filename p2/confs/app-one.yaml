@@ -24,6 +24,8 @@ spec:
         env:
           - name: MESSAGE
             value: "Hello from app1."
+          - name: KUBERNETES_NAMESPACE
+            value: "Show me your boobs"
         ports:
         - containerPort: 8080
 

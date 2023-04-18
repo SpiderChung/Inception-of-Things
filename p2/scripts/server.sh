@@ -9,8 +9,17 @@ echo "The script server.sh is running"
 # echo '$#' $#
 # echo '$@' $@
 
+echo "Install iptables"
+sudo apt-get -y install iptables
+sleep 10
+
 # download and run k3s agent. https://docs.k3s.io/quick-start "curl -sfL https://get.k3s.io | sh -"
 # INSTALL_K3S_EXEC - https://docs.k3s.io/installation/configuration https://docs.k3s.io/cli/server https://docs.k3s.io/reference/env-variables
+# echo "Install K3S"
+# curl -sfL https://get.k3s.io -o k3s.sh
+# export INSTALL_K3S_EXEC="server --write-kubeconfig-mode=644 --node-ip $1 --flannel-iface eth1"
+# sudo sh k3s.sh
+
 echo "Install KS3"
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --write-kubeconfig-mode=644 --node-ip $1 --flannel-iface eth1" sh -s -
 
