@@ -21,9 +21,13 @@ echo -e "\033[34;1;4;47m [INFO] Install Argo CD \033[0m"
 # curl https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml -o install_argo_cd.yaml
 # After downloading the file, add the line "- --insecure" after the line "- argocd-server" and then run it.
 
-curl -sfL https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml > /vagrant/scripts/install_argo_cd.yaml
-sed -i '/- argocd-server/s/$/\n\t\t\t\t--insecure/' /vagrant/scripts/install_argo_cd.yaml
-sudo kubectl apply -n argocd -f /vagrant/scripts/install_argo_cd.yaml
+# curl -sfL https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml > /vagrant/scripts/install_argo_cd.yaml
+# sed -i '/- argocd-server/s/$/\n        - --insecure/' /vagrant/scripts/install_argo_cd.yaml
+# sudo kubectl apply -n argocd -f /vagrant/scripts/install_argo_cd.yaml
+
+curl https://raw.githubusercontent.com/argoproj/argo-cd/master/manifests/install.yaml | kubectl apply -n argocd -f -
+# kubectl -n argocd patch deployment argocd-server --type json -p='[ { "op": "replace", "path":"/spec/template/spec/containers/0/command","value": ["argocd-server","--insecure"] }]'
+kubectl -n argocd set env deployment/argocd-server ARGOCD_SERVER_INSECURE=true
 
 # kubectl --namespace argocd get all
 echo "waiting the pods to be ready"
