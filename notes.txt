@@ -20,6 +20,7 @@ vagrant destroy [name|id] [-f]
 vagrant destroy -f
 vagrant box list
 vagrant status
+vagrant provision
 
 
 
@@ -51,6 +52,6 @@ kubectl explain pod.spec - показать документацию
 kubectl config set-context --current --namespace=my-namespace - сменить текущий namespace
 kubectl set image deployment my-deployment "fsdfsdfas" - установить новый образ
 kubectl edit deployment argocd-dex-server - совершить изменения в deployment
-sudo kubectl get deploy argocd-server -o yaml - посмотреть yaml
+sudo kubectl get deploy argocd-server -o yaml - посмотреть yaml определенного пода
 
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d - узнать пароль для доступа через веб-морду ArgoCD
