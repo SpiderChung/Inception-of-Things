@@ -1,0 +1,43 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# define box. https://app.vagrantup.com/bento/boxes/debian-11 https://developer.hashicorp.com/vagrant/docs/boxes
+VAGRANT_BOX = "bento/debian-11"
+
+# define provider
+PROVIDER = "virtualbox"
+
+# define characteristics of virtual machine
+MEM = 6144
+CPU = 2
+NAME1 = "ScornholS"
+NAME2 = "SchungS"
+SERVER_IP = "192.168.56.110"
+SCRIPT1 = "./scripts/install.sh"
+SCRIPT2 = "./scripts/create.sh"
+
+Vagrant.configure("2") do |config|
+
+  config.vm.box = VAGRANT_BOX
+    
+  config.vm.provider PROVIDER do |vb|
+    # define resources 
+    vb.memory = MEM
+    vb.cpus = CPU
+    vb.name = NAME1
+
+    # connect with SSH on both machines with no password
+    id_rsa_pub = File.read("#{Dir.home}/.ssh/id_rsa.pub")
+    config.vm.provision "copy ssh public key", type: "shell", inline: "echo \"#{id_rsa_pub}\" >> /home/vagrant/.ssh/authorized_keys"
+  end # provider
+  
+  config.vm.define NAME2
+  config.vm.hostname = NAME1
+  config.vm.network "private_network", ip: SERVER_IP
+  config.vm.network "forwarded_port", guest: 8080, host: 8080
+  config.vm.network "forwarded_port", guest: 8888, host: 8888
+  config.vm.synced_folder ".", "/vagrant", type: PROVIDER, create: true
+  config.vm.provision "1", type: "shell", privileged: true, path: SCRIPT1
+  config.vm.provision "2", type: "shell", privileged: true, path: SCRIPT2
+
+end # Vagrant.configure
