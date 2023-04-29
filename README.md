@@ -4,6 +4,7 @@
 
 
 https://developer.hashicorp.com/vagrant
+
 https://help.ubuntu.ru/wiki/vagrant#vagrant_provision
 
 ## K3S
